@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: toList
+    environment:
+      POSTGRES_DB: tolistdb
+      POSTGRES_USER: admin123
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - tolist_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  tolist_postgres_data:
