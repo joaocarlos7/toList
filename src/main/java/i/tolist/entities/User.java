@@ -1,5 +1,6 @@
 package i.tolist.entities;
 
+import i.tolist.entities.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +26,8 @@ public class User {
     private String password;
     
     private boolean active;
+    
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType = RoleType.USER;
     
 }
