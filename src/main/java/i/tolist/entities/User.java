@@ -21,12 +21,20 @@ public class User {
     @Column(name = "id")
     
     private UUID id;
+    
+    @Column(nullable = false, unique = false)
     private String name;
+    
+    @Column(nullable = false, unique = true)
     private String email;
+    
+    @Column(nullable = false)
     private String password;
     
+    @Column(nullable = false)
     private boolean active;
     
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleType roleType = RoleType.USER;
     
