@@ -3,7 +3,6 @@ package i.tolist.controller;
 
 import i.tolist.dto.request.UserCreateRequest;
 import i.tolist.dto.response.UserResponse;
-import i.tolist.entities.User;
 import i.tolist.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,18 +21,35 @@ public class UserController {
     }
     
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     UserResponse getUser(@PathVariable UUID id) {
         
         return userService.findById(id);
     }
     
-    @PostMapping("/create")
+    @GetMapping("/email")
     @PreAuthorize("hasRole('ADMIN')")
+    UserResponse getUserByEmail(@RequestParam String email) {
+        return userService.findByEmail(email);
+    }
+    
+    @PostMapping("/create")
     UserResponse createUser(@RequestBody UserCreateRequest userCreateRequest, HttpServletRequest request) {
         
         return userService.create(userCreateRequest);
     }
     
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    UserResponse updateUser(@PathVariable UUID id, @RequestBody UserCreateRequest userCreateRequest) {
+        return userService.update(id, userCreateRequest);
+    }
+    
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    void deleteUser(@PathVariable UUID id) {
+        userService.delete(id);
+    }
     
     
 
