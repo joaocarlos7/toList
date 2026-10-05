@@ -23,6 +23,7 @@ public class DataInitializer {
                 userAdmin.setName("admin");
                 userAdmin.setEmail("empty@empty.com");
                 userAdmin.setRoleType(ADMIN);
+                userAdmin.setActive(true);
                 userAdmin.setPassword(passwordEncoder.encode("12345"));
                 userRepository.save(userAdmin);
                 

@@ -4,6 +4,7 @@ package i.tolist.service;
 import i.tolist.dto.request.UserCreateRequest;
 import i.tolist.dto.response.UserResponse;
 import i.tolist.entities.User;
+import i.tolist.entities.enums.RoleType;
 import i.tolist.exception.EmailAlreadyExists;
 import i.tolist.exception.EmailNotFound;
 import i.tolist.exception.UserIdNotFound;
@@ -40,6 +41,7 @@ public class UserService {
         
         User userEntity = userMapper.mapEntity(user);
         userEntity.setPassword(passwordEncoder.encode(user.password()));
+        userEntity.setRoleType(RoleType.USER);
         User savedUser = userRepository.save(userEntity);
         
         return userMapper.mapRequest(savedUser);

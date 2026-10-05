@@ -22,7 +22,7 @@ public class User {
     
     private UUID id;
     
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private String name;
     
     @Column(nullable = false, unique = true)
@@ -34,8 +34,8 @@ public class User {
     @Column(nullable = false)
     private boolean active;
     
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private RoleType roleType = RoleType.USER;
+    @Column(name = "role_type", nullable = false)
+    private RoleType roleType;
     
 }
