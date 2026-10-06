@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 @Service
 public class JwtProvider {
     
-    @Value("{spring.security.token.secrets")
+    @Value("${spring.security.token.secret}")
     private String secret;
     
     

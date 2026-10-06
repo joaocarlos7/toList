@@ -10,4 +10,4 @@ public class ToListApplication {
         SpringApplication.run(ToListApplication.class, args);
     }
     
-}   
+}
