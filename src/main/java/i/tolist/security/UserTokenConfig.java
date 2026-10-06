@@ -1,7 +1,6 @@
 package i.tolist.security;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.JWT;
 import i.tolist.dto.request.AuthUserRequest;
 import i.tolist.entities.User;
 import i.tolist.repositories.UserRepository;
@@ -11,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.AuthenticationException;
-import static org.springframework.security.config.Elements.JWT;
 
 
 import java.time.Duration;
@@ -22,7 +20,7 @@ import java.time.Instant;
 @Component
 public class UserTokenConfig {
     
-    @Value("${spring.security.token.secrets}")
+    @Value("${spring.security.token.secret}")
     private String secretKey;
     
     private final UserRepository userRepository;
