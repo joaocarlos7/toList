@@ -6,6 +6,7 @@ import i.tolist.dto.response.UserResponse;
 import i.tolist.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
