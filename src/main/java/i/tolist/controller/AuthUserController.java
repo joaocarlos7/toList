@@ -19,7 +19,7 @@ public class AuthUserController {
         this.userTokenConfig = userTokenConfig;
     }
     
-    @PostMapping("/user")
+    @PostMapping("/users")
     public ResponseEntity<String> login(@Valid @RequestBody AuthUserRequest authUserRequest) {
         
         try {

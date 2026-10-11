@@ -8,13 +8,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
-@Component
 public class SecurityFilter extends OncePerRequestFilter {
     
     private final JwtProvider jwtProvider;
@@ -28,31 +28,53 @@ public class SecurityFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
         throws ServletException, IOException {
         
-        SecurityContextHolder.getContext().setAuthentication(null);
         String header = request.getHeader("Authorization");
         
-        if(header != null && !header.isBlank()) {
-            DecodedJWT decodedJWT = jwtProvider.validateToken(header);
+        if(header == null || !header.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+            String token = header.substring(7).trim();
+            
+            DecodedJWT decodedJWT = jwtProvider.validateToken(token);
             
             if(decodedJWT == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            SecurityContextHolder.clearContext();
+            
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+            }
+            
+            List<String> roles = decodedJWT
+                    .getClaim("roles")
+                    .asList(String.class);
+            
+            if (roles == null || roles.isEmpty()) {
+                
+                SecurityContextHolder.clearContext();
+                
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
-            String subjectToken = decodedJWT.getSubject();
-            var roleList = decodedJWT.getClaim("roles").asList(String.class);
             
-            var authorities = roleList.stream()
+            var authorities = roles
+                    .stream()
                     .map(SimpleGrantedAuthority::new)
                     .toList();
             
-            request.setAttribute("UserId", subjectToken);
-            UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(subjectToken, null, authorities);
+            var authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            decodedJWT.getSubject(), null, authorities);
             
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            
+            context.setAuthentication(authentication);
+            
+            SecurityContextHolder.setContext(context);
+            
+            filterChain.doFilter(request, response);
+            
         }
-        
-        filterChain.doFilter(request, response);
-        }
-    }
+}
+
 

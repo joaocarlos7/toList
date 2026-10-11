@@ -5,6 +5,7 @@ import i.tolist.dto.request.UserCreateRequest;
 import i.tolist.dto.response.UserResponse;
 import i.tolist.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,9 @@ public class UserController {
         return userService.findById(id);
     }
     
-    @GetMapping("/email")
+    @GetMapping("/email/{email}")
     @PreAuthorize("hasRole('ADMIN')")
-    UserResponse getUserByEmail(@RequestParam String email) {
+    UserResponse getUserByEmail(@PathVariable String email) {
         return userService.findByEmail(email);
     }
     
@@ -48,8 +49,11 @@ public class UserController {
     
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    void deleteUser(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         userService.delete(id);
+        
+        
+        return ResponseEntity.noContent().build();
     }
     
     
