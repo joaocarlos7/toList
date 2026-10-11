@@ -27,7 +27,10 @@ public class DataInitializer {
                 userAdmin.setPassword(passwordEncoder.encode("12345"));
                 userRepository.save(userAdmin);
                 
-                System.out.println("User Admin has been created");
+                System.out.println("User Admin has been created" +
+                        "email: empty@empty.com" +
+                        "password: 12345" +
+                        "roleType: ADMIN");
             }
         };
     }
