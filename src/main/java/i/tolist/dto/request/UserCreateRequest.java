@@ -7,8 +7,6 @@ import java.util.UUID;
 
 public record UserCreateRequest (
         
-        UUID id,
-        
         @NotBlank
         String name,
         

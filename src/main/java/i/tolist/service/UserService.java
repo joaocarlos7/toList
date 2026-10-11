@@ -1,12 +1,16 @@
 package i.tolist.service;
 
 
+import i.tolist.dto.request.EmailUpdateRequest;
+import i.tolist.dto.request.PasswordUpdateRequest;
 import i.tolist.dto.request.UserCreateRequest;
+import i.tolist.dto.request.UserUpdateRequest;
 import i.tolist.dto.response.UserResponse;
 import i.tolist.entities.User;
 import i.tolist.entities.enums.RoleType;
 import i.tolist.exception.EmailAlreadyExists;
 import i.tolist.exception.EmailNotFound;
+import i.tolist.exception.InvalidCredentials;
 import i.tolist.exception.UserIdNotFound;
 import i.tolist.mappers.UserMapper;
 import i.tolist.repositories.UserRepository;
@@ -14,6 +18,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.CredentialException;
 import java.util.UUID;
 
 
@@ -48,7 +53,7 @@ public class UserService {
     }
     
     @Transactional
-    public UserResponse update(UUID userId, UserCreateRequest user) {
+    public UserResponse update(UUID userId, UserUpdateRequest user) {
         
         User userUpdate = userRepository.findById(userId)
                 .orElseThrow(() -> new UserIdNotFound(userId));
@@ -62,7 +67,6 @@ public class UserService {
         
         userUpdate.setName(user.name());
         userUpdate.setEmail(user.email());
-        userUpdate.setPassword(passwordEncoder.encode(user.password()));
         userUpdate.setActive(user.active());
         
         return userMapper.mapRequest(userRepository.save(userUpdate));
@@ -89,6 +93,50 @@ public class UserService {
     public void delete(UUID userId) {
         
         userRepository.deleteById(userId);
+    }
+    
+    @Transactional
+    public void updatePassword(PasswordUpdateRequest passwordUpdateRequest) {
+        
+        User user = userRepository.findByEmail(passwordUpdateRequest.email())
+                .orElseThrow(() -> new EmailNotFound(passwordUpdateRequest.email()));
+        
+        boolean emailExists = userRepository.existsByEmail(passwordUpdateRequest.email());
+        if (!emailExists) {
+            throw new EmailNotFound(passwordUpdateRequest.email());
+        }
+        
+        
+        boolean passwordMatches = passwordEncoder.matches(passwordUpdateRequest.oldPassword(), user.getPassword());
+        
+        if (!passwordMatches) {
+            throw new InvalidCredentials("Invalid Credentials");
+            
+        }
+        user.setPassword(passwordEncoder.encode(passwordUpdateRequest.newPassword()));
+        userMapper.mapRequest(userRepository.save(user));
+        
+    }
+    
+    @Transactional
+    public void updateEmail(EmailUpdateRequest emailUpdateRequest) {
+        
+        User user = userRepository.findByEmail(emailUpdateRequest.email())
+                .orElseThrow(() -> new EmailNotFound(emailUpdateRequest.email()));
+        
+        boolean emailExists = userRepository.existsByEmail(emailUpdateRequest.email());
+        boolean alreadyExists = userRepository.existsByEmail(emailUpdateRequest.newEmail());
+        
+        
+        if(!emailExists) {
+            throw new EmailNotFound(emailUpdateRequest.email());
+        } else if(alreadyExists) {
+            throw new EmailAlreadyExists("Email already exists");
+        }
+        
+        user.setEmail(emailUpdateRequest.newEmail());
+        userMapper.mapRequest(userRepository.save(user));
+        
     }
     
     

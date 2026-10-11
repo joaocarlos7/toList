@@ -1,7 +1,10 @@
 package i.tolist.controller;
 
 
+import i.tolist.dto.request.EmailUpdateRequest;
+import i.tolist.dto.request.PasswordUpdateRequest;
 import i.tolist.dto.request.UserCreateRequest;
+import i.tolist.dto.request.UserUpdateRequest;
 import i.tolist.dto.response.UserResponse;
 import i.tolist.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,8 +46,8 @@ public class UserController {
     
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    UserResponse updateUser(@PathVariable UUID id, @RequestBody UserCreateRequest userCreateRequest) {
-        return userService.update(id, userCreateRequest);
+    UserResponse updateUser(@PathVariable UUID id, @RequestBody UserUpdateRequest userUpdateRequest) {
+        return userService.update(id, userUpdateRequest);
     }
     
     @DeleteMapping("/{id}")
@@ -54,6 +57,16 @@ public class UserController {
         
         
         return ResponseEntity.noContent().build();
+    }
+    
+    @PatchMapping("/passwordUpdate")
+    void updateUserPassword(@RequestBody PasswordUpdateRequest passwordUpdateRequest) {
+       userService.updatePassword(passwordUpdateRequest);
+    }
+    
+    @PatchMapping("/emailUpdate")
+    void updateUserEmail(@RequestBody EmailUpdateRequest emailUpdateRequest) {
+        userService.updateEmail(emailUpdateRequest);
     }
     
     

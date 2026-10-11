@@ -23,7 +23,6 @@ public class UserMapper {
         
         User user = new User();
         
-        user.setId(userCreateRequest.id());
         user.setName(userCreateRequest.name());
         user.setEmail(userCreateRequest.email());
         user.setPassword(userCreateRequest.password());

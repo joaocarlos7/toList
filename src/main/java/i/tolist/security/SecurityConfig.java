@@ -50,9 +50,13 @@ public class SecurityConfig {
                         auth
                         .requestMatchers(HttpMethod.POST, "/users/create").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/users").permitAll()
+                        
                         .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                        
+                        .requestMatchers(HttpMethod.PATCH, "/users/emailUpdate").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/users/passwordUpdate").authenticated()
                         .anyRequest().authenticated()
                 )
         
