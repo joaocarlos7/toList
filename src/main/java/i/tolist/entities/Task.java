@@ -1,6 +1,6 @@
 package i.tolist.entities;
 
-import i.tolist.entities.enums.TasksStatus;
+import i.tolist.entities.enums.TasksPriority;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Tasks {
+public class Task {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,10 +28,13 @@ public class Tasks {
     private String description;
     
     @Column(nullable = false)
-    private TasksStatus status;
+    private TasksPriority tasksPriority;
     
-    @ManyToOne
-    @JoinColumn(name = "userTask")
+    @Column(nullable = false)
+    private boolean completed;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userTask", nullable = false)
     private User user;
     
 }

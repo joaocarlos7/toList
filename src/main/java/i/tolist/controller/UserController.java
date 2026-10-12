@@ -8,15 +8,15 @@ import i.tolist.dto.request.UserUpdateRequest;
 import i.tolist.dto.response.UserResponse;
 import i.tolist.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping("/users")
 
 public class UserController {
     
@@ -39,7 +39,7 @@ public class UserController {
     }
     
     @PostMapping("/create")
-    UserResponse createUser(@RequestBody UserCreateRequest userCreateRequest, HttpServletRequest request) {
+    public UserResponse createUser(@RequestBody UserCreateRequest userCreateRequest, HttpServletRequest request) {
         
         return userService.create(userCreateRequest);
     }
@@ -52,10 +52,8 @@ public class UserController {
     
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id)   {
         userService.delete(id);
-        
-        
         return ResponseEntity.noContent().build();
     }
     
