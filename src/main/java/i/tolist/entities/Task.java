@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tasks")
+@Table(name = "task")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +18,7 @@ public class Task {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "tasksId")
+    @Column(name = "taskId")
     private UUID id;
     
     @Column(nullable = false)

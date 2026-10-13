@@ -5,18 +5,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record TaskCreateRequest (
-    
-    @NotBlank
-    String title,
-    
-    @NotBlank
-    String description,
-    
-    @NotNull
-    TasksPriority tasksPriority,
-    
-    @NotNull
-    boolean completed
+        
+        @NotBlank
+        String title,
+        
+        @NotBlank
+        String description,
+        
+        @NotNull
+        TasksPriority tasksPriority,
+        
+        @NotNull
+        boolean completed
     
     ) {
 }

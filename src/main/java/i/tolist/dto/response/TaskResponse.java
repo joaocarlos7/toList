@@ -1,5 +1,6 @@
 package i.tolist.dto.response;
 
+import i.tolist.entities.User;
 import i.tolist.entities.enums.TasksPriority;
 
 public record TaskResponse (
