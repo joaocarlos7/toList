@@ -23,8 +23,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 public class SecurityConfig {
     
+    private static final String PRIVATE_USERS_URL = "/users/**";
+    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String PRIVATE_TASKS_URL = "/tasks/**";
+    
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtProvider jwtProvider) throws Exception {
+        
+        
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -51,12 +58,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/users/create").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/users").permitAll()
                         
-                        .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, PRIVATE_USERS_URL).hasRole(ROLE_ADMIN)
+                        .requestMatchers(HttpMethod.PUT, PRIVATE_USERS_URL).hasRole(ROLE_ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, PRIVATE_USERS_URL).hasRole(ROLE_ADMIN)
                         
                         .requestMatchers(HttpMethod.PATCH, "/users/emailUpdate").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/users/passwordUpdate").authenticated()
+                        
+                        .requestMatchers(HttpMethod.GET, PRIVATE_TASKS_URL).authenticated()
+                        .requestMatchers(HttpMethod.POST, PRIVATE_TASKS_URL).authenticated()
+                        .requestMatchers(HttpMethod.PATCH, PRIVATE_TASKS_URL).authenticated()
+                        .requestMatchers(HttpMethod.DELETE, PRIVATE_TASKS_URL).authenticated()
                         .anyRequest().authenticated()
                 )
         
