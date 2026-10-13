@@ -1,5 +1,6 @@
 package i.tolist.security;
 
+import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import i.tolist.dto.request.AuthUserRequest;
 import i.tolist.entities.User;
@@ -14,7 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 
 import java.time.Duration;
 import java.time.Instant;
-
+import java.util.List;
 
 
 @Component
@@ -44,10 +45,10 @@ public class UserTokenConfig {
         
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         
-        return com.auth0.jwt.JWT.create()
+        return   JWT.create()
                 .withIssuer("toList")
                 .withSubject(userExists.getId().toString())
-                .withClaim("roles", java.util.List.of("ROLE_" + userExists.getRoleType().name()))
+                .withClaim("roles", List.of("ROLE_" + userExists.getRoleType().name()))
                 .withExpiresAt(Instant.now().plus(Duration.ofHours(8)))
                 .sign(algorithm);
         
