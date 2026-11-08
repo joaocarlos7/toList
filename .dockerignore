@@ -1,0 +1,14 @@
+# Gerado pelo AutoDock.
+.git
+.idea
+.vscode
+*.log
+.env
+.env.*
+!.env.example
+Dockerfile
+docker-compose*.yml
+compose*.y*ml
+target
+build
+.gradle

@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/task")
 
@@ -29,7 +31,12 @@ public class TaskController {
         this.taskService = taskService;
     }
     
-    
+
+    @GetMapping("/getId")
+    public TaskResponse getTask(@RequestParam("id") UUID id) {
+        return taskService.getTask(id);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<TaskResponse> create(@RequestBody TaskCreateRequest taskCreateRequest) {
         
@@ -38,5 +45,6 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedTask);
     }
+
     
 }

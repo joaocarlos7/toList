@@ -4,14 +4,15 @@ import i.tolist.dto.request.TaskCreateRequest;
 import i.tolist.dto.response.TaskResponse;
 import i.tolist.entities.Task;
 import i.tolist.entities.User;
+import i.tolist.exception.TaskIdNotFound;
 import i.tolist.mappers.TaskMapper;
 import i.tolist.repositories.TaskRepository;
 import i.tolist.repositories.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.SQLOutput;
 import java.util.UUID;
 
 @Service
@@ -33,7 +34,7 @@ public class TaskService {
     public TaskResponse create(TaskCreateRequest task) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
-        if (authentication.getName() == null) {
+        if (authentication == null) {
             throw new IllegalStateException("Username not found");
         }
         
@@ -47,6 +48,13 @@ public class TaskService {
         taskEntity.setUser(user);
         
         return taskMapper.mapRequest(taskRepository.save(taskEntity));
+    }
+    public TaskResponse getTask(@RequestParam("id") UUID id) {
+        if (taskRepository.existsById(id)) {
+            return taskMapper.mapRequest(taskRepository.findById(id).get());
+        } else  {
+            throw new TaskIdNotFound(id);
+        }
     }
     public void deleteTask(UUID id) {
         taskRepository.deleteById(id);
