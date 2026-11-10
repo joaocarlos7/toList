@@ -35,7 +35,7 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<TaskResponse> create(@RequestBody TaskCreateRequest taskCreateRequest) {
+    ResponseEntity<TaskResponse> create(@RequestBody TaskCreateRequest taskCreateRequest) {
         
             TaskResponse savedTask = taskService.create(taskCreateRequest);
         
@@ -52,5 +52,12 @@ public class TaskController {
 
 
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.ok().build();
+    }
+
     
 }
