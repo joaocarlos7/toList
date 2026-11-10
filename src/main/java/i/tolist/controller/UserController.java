@@ -1,14 +1,13 @@
 package i.tolist.controller;
 
 
-import i.tolist.dto.request.EmailUpdateRequest;
-import i.tolist.dto.request.PasswordUpdateRequest;
-import i.tolist.dto.request.UserCreateRequest;
-import i.tolist.dto.request.UserUpdateRequest;
+import i.tolist.dto.request.user.EmailUpdateRequest;
+import i.tolist.dto.request.user.PasswordUpdateRequest;
+import i.tolist.dto.request.user.UserCreateRequest;
+import i.tolist.dto.request.user.UserUpdateRequest;
 import i.tolist.dto.response.UserResponse;
 import i.tolist.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

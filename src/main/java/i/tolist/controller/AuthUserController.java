@@ -1,6 +1,6 @@
 package i.tolist.controller;
 
-import i.tolist.dto.request.AuthUserRequest;
+import i.tolist.dto.request.auth.AuthUserRequest;
 import jakarta.validation.Valid;
 import i.tolist.security.UserTokenConfig;
 import org.springframework.http.HttpStatus;

@@ -1,18 +1,22 @@
-package i.tolist.dto.request;
+package i.tolist.dto.request.user;
+
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public record EmailUpdateRequest (
+public record PasswordUpdateRequest (
+        
         
         @NotBlank
         @Email
         String email,
         
         @NotBlank
-        String password,
+        String oldPassword,
         
         @NotBlank
-        String newEmail
-) {
+        String newPassword
+        
+        
+){
 }

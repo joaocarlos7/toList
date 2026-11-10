@@ -1,4 +1,4 @@
-package i.tolist.dto.request;
+package i.tolist.dto.request.auth;
 
 import i.tolist.entities.enums.TasksPriority;
 import jakarta.validation.constraints.NotBlank;

@@ -1,6 +1,6 @@
 package i.tolist.mappers;
 
-import i.tolist.dto.request.TaskCreateRequest;
+import i.tolist.dto.request.auth.TaskCreateRequest;
 import i.tolist.dto.response.TaskResponse;
 import i.tolist.entities.Task;
 import org.springframework.stereotype.Component;

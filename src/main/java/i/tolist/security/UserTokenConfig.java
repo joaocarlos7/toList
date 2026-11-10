@@ -2,7 +2,7 @@ package i.tolist.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import i.tolist.dto.request.AuthUserRequest;
+import i.tolist.dto.request.auth.AuthUserRequest;
 import i.tolist.entities.User;
 import i.tolist.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;

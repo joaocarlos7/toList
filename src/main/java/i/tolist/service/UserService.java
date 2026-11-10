@@ -1,10 +1,10 @@
 package i.tolist.service;
 
 
-import i.tolist.dto.request.EmailUpdateRequest;
-import i.tolist.dto.request.PasswordUpdateRequest;
-import i.tolist.dto.request.UserCreateRequest;
-import i.tolist.dto.request.UserUpdateRequest;
+import i.tolist.dto.request.user.EmailUpdateRequest;
+import i.tolist.dto.request.user.PasswordUpdateRequest;
+import i.tolist.dto.request.user.UserCreateRequest;
+import i.tolist.dto.request.user.UserUpdateRequest;
 import i.tolist.dto.response.UserResponse;
 import i.tolist.entities.User;
 import i.tolist.entities.enums.RoleType;

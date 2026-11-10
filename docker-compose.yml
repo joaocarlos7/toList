@@ -3,7 +3,7 @@ services:
     image: postgres:16
     container_name: toList
     environment:
-      POSTGRES_DB: tolistdb
+      POSTGRES_DB: tolist
       POSTGRES_USER: admin123
       POSTGRES_PASSWORD: admin123
     ports:

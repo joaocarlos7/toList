@@ -1,6 +1,6 @@
 package i.tolist.mappers;
 
-import i.tolist.dto.request.UserCreateRequest;
+import i.tolist.dto.request.user.UserCreateRequest;
 import i.tolist.dto.response.UserResponse;
 import i.tolist.entities.User;
 import org.springframework.stereotype.Component;
